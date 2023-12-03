@@ -20,9 +20,6 @@ st.set_page_config(
 # Titre de l'application
 st.markdown("<h1 style='font-size:24px;'>Une Carte de MAROC</h1>", unsafe_allow_html=True)
 
-# Récupérer la variable de session pour 'redirected' ou initialiser à False si non définie
-redirected = st.session_state.get('redirected', False)
-
 def jenks_classifier(data, column, k=5):
     values = data[column].values
     breaks = jenks_breaks(values, k)
@@ -53,21 +50,6 @@ if option == "Attribut":
 
     # Définir l'échelle pour les symboles proportionnels
     scale = filtered_data[selected_column_day].max()
-    if not redirected and (selected_attribute != 'temperature' or selected_day != 6):
-    # Changer les paramètres d'URL
-        params["op"] = f"{selected_attribute}_{selected_day}"
-
-    # Définir la variable de session pour indiquer que la page a été redirigée
-        st.session_state.redirected = True
-
-    # Rafraîchir la page avec une redirection JavaScript
-        redirect_code = f"""
-            <script>
-                var newUrl = '{construct_url(params)}';
-                window.location.href = newUrl;
-            </script>
-        """
-        st.markdown(redirect_code, unsafe_allow_html=True)
     for idx, row in filtered_data.iterrows():
         popup = f"{selected_column_day}: {row[selected_column_day]}"
         
@@ -152,16 +134,23 @@ else:
     
     # Ajouter manuellement les classes à la carte Folium
     colormap.add_to(m)
-   # En fonction des conditions, ajuster le contenu de la page
-    if selected_property != 'humidité':
-    # Changer les paramètres d'URL
-      params["op"] = f"{selected_property}"
-
-    # Rafraîchir la page pour appliquer les changements d'URL
-      st.experimental_set_query_params(**params)
-      st.experimental_rerun()
 
     
 # Afficher la carte dans Streamlit
 folium_static(m ,width=1000, height=600)
+# Fonction pour ajouter le script HTML2PDF
+def add_html2pdf_script():
+    html2pdf_script = """
+        <script src="https://rawgit.com/eKoopmans/html2pdf/master/dist/html2pdf.bundle.js"></script>
+        <script>
+            function captureAndDownload() {
+                const element = document.body;  // Vous pouvez ajuster ceci pour capturer une partie spécifique de la page
+                html2pdf(element);
+            }
+        </script>
+    """
+    st.markdown(html2pdf_script, unsafe_allow_html=True)
 
+# Ajouter le bouton dans l'application Streamlit
+if st.button("Capturer et Télécharger"):
+    add_html2pdf_script()
