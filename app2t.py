@@ -20,6 +20,8 @@ st.set_page_config(
 # Titre de l'application
 st.markdown("<h1 style='font-size:24px;'>Une Carte de MAROC</h1>", unsafe_allow_html=True)
 
+# Récupérer la variable de session pour 'redirected' ou initialiser à False si non définie
+redirected = st.session_state.get('redirected', False)
 
 def jenks_classifier(data, column, k=5):
     values = data[column].values
@@ -66,7 +68,6 @@ if option == "Attribut":
             </script>
         """
         st.markdown(redirect_code, unsafe_allow_html=True)
-    # Ajouter les données à la carte en tant que symboles proportionnels
     for idx, row in filtered_data.iterrows():
         popup = f"{selected_column_day}: {row[selected_column_day]}"
         
