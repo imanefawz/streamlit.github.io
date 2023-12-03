@@ -49,15 +49,20 @@ if option == "Attribut":
 
     # Définir l'échelle pour les symboles proportionnels
     scale = filtered_data[selected_column_day].max()
- # En fonction des conditions, ajuster le contenu de la page
-    if selected_attribute != 'temperature' or selected_day != 6:
+# Variable de session pour suivre l'état de redirection
+    redirected = st.session_state.get('redirected', False)
+
+# En fonction des conditions, ajuster le contenu de la page
+    if not redirected and (selected_attribute != 'temperature' or selected_day != 6):
     # Changer les paramètres d'URL
-     params["op"] = f"{selected_attribute}_{selected_day}"
+      params["op"] = f"{selected_attribute}_{selected_day}"
+
+    # Définir la variable de session pour indiquer que la page a été redirigée
+      st.session_state.redirected = True
 
     # Rafraîchir la page pour appliquer les changements d'URL
-     if st.experimental_rerun() is not None:
-        st.experimental_set_query_params(**params)
-        st.experimental_rerun()
+      st.experimental_set_query_params(**params)
+      st.experimental_rerun()
     # Ajouter les données à la carte en tant que symboles proportionnels
     for idx, row in filtered_data.iterrows():
         popup = f"{selected_column_day}: {row[selected_column_day]}"
