@@ -4,6 +4,8 @@ import folium
 from streamlit_folium import folium_static
 import pandas as pd
 from jenkspy import jenks_breaks
+from urllib.parse import urlencode, urlunparse
+import requests
 
 # Charger les données géospatiales depuis le fichier GeoParquet
 path_to_geoparquet = "OUTPUT1500.geoparquet"
@@ -49,20 +51,21 @@ if option == "Attribut":
 
     # Définir l'échelle pour les symboles proportionnels
     scale = filtered_data[selected_column_day].max()
-# Variable de session pour suivre l'état de redirection
-    redirected = st.session_state.get('redirected', False)
-
-# En fonction des conditions, ajuster le contenu de la page
     if not redirected and (selected_attribute != 'temperature' or selected_day != 6):
     # Changer les paramètres d'URL
-      params["op"] = f"{selected_attribute}_{selected_day}"
+        params["op"] = f"{selected_attribute}_{selected_day}"
 
     # Définir la variable de session pour indiquer que la page a été redirigée
-      st.session_state.redirected = True
+        st.session_state.redirected = True
 
-    # Rafraîchir la page pour appliquer les changements d'URL
-      st.experimental_set_query_params(**params)
-      st.experimental_rerun()
+    # Rafraîchir la page avec une redirection JavaScript
+        redirect_code = f"""
+            <script>
+                var newUrl = '{construct_url(params)}';
+                window.location.href = newUrl;
+            </script>
+        """
+        st.markdown(redirect_code, unsafe_allow_html=True)
     # Ajouter les données à la carte en tant que symboles proportionnels
     for idx, row in filtered_data.iterrows():
         popup = f"{selected_column_day}: {row[selected_column_day]}"
