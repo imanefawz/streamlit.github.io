@@ -93,15 +93,6 @@ if option == "Attribut":
     # Ajouter manuellement les classes à la carte Folium
     colormap.add_to(m)
 
-   # En fonction des conditions, ajuster le contenu de la page
-    if selected_attribute != 'temperature' or selected_day != 6:
-    # Changer les paramètres d'URL
-      params["op"] = f"{selected_attribute}_{selected_day}"
-
-    # Rafraîchir la page pour appliquer les changements d'URL
-      st.experimental_set_query_params(**params)
-      st.experimental_rerun()
-
 else:
     # Liste des propriétés pour le choix
     proprietes = [ 'humidité', 'Reflectance']
