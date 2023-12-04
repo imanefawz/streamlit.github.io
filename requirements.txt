@@ -75,3 +75,5 @@ validators==0.22.0
 watchdog==3.0.0
 xyzservices==2023.10.1
 zipp==3.17.0
+Imageio==2.9.0
+leafmap==0.29.1
