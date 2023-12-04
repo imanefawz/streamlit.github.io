@@ -1,24 +1,3 @@
-from branca.colormap import LinearColormap
-import streamlit as st
-import geopandas as gpd
-import folium
-from streamlit_folium import folium_static
-import numpy as np
-import rasterio 
-import glob
-import glob
-import rasterio
-import matplotlib.pyplot as plt
-from PIL import Image, ImageDraw
-import imageio
-
-from branca.colormap import LinearColormap
-st.set_page_config(
-    page_title="TIMELAPSE",
-    page_icon="⏳",
-    layout="centered",  
-)
-
 import streamlit as st
 import geopandas as gpd
 import matplotlib.pyplot as plt
@@ -129,7 +108,7 @@ st.write('voici en format VIDEO 🎥 ')
 video_frames = []
 for selected_day in range(0, 6):  # Include day 1 in the range
         # Charger le raster correspondant à l'attribut sélectionné
-        RASTERPATH = f""RASTERSclassifié""
+        RASTERPATH = f"RASTERSclassifié"
         
         ## LC08 RGB Image
         dst_crs = 'EPSG:4326'
@@ -181,7 +160,7 @@ for selected_day in range(0, 6):  # Include day 1 in the range
         # Overlay raster (RGB) called img using add_child() function (opacity and bounding box set)
         m.add_child(folium.raster_layers.ImageOverlay(img.transpose(1, 2, 0), opacity=.7, 
                         bounds=bounds_fin))
-        path = f""RASTERSclassifié"\\{selected_attribute}jour{selected_day}.tif"
+        path = f"RASTERSclassifié\\{selected_attribute}jour{selected_day}.tif"
 
         with rio.open(path) as src:
             data = src.read(1, masked=True)
@@ -220,4 +199,3 @@ if video_frames:
     # Remove the video file after displaying
     if os.path.exists(video_path):
         os.remove(video_path)
-
