@@ -62,7 +62,7 @@ def create_timelapse(image_files, DAY_names, duration):
 
 
 DAY_names = ['0', '1', '2', '3', '4', '5', '6']
-folder = "RASTERSclassifié"
+
 if selected_attribute=='temperature':
       min=0
       max=100
@@ -75,7 +75,7 @@ else:
 class_limits1 = np.linspace(min, max, num=6) 
     # Générer la liste des fichiers image
 
-image_files = sorted(glob.glob(f"{folder}\\{selected_attribute.lower()}jour*.tif"))
+image_files = sorted(glob.glob(f"https://eslaila.github.io/webmapping.github.io\\{selected_attribute.lower()}jour*.tif"))
 
 create_timelapse(image_files, DAY_names, duration=1)
 first_image = image_files[0]
@@ -108,7 +108,7 @@ st.write('voici en format VIDEO 🎥 ')
 video_frames = []
 for selected_day in range(0, 6):  # Include day 1 in the range
         # Charger le raster correspondant à l'attribut sélectionné
-        RASTERPATH = f"RASTERSclassifié"
+        RASTERPATH = f"https://eslaila.github.io/webmapping.github.io//{selected_attribute}jour{selected_day}.tif"
         
         ## LC08 RGB Image
         dst_crs = 'EPSG:4326'
