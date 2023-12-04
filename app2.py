@@ -83,7 +83,7 @@ def create_timelapse(image_files, DAY_names, duration):
 
 
 DAY_names = ['0', '1', '2', '3', '4', '5', '6']
-folder = ""RASTERSclassifié""
+folder = "RASTERSclassifié"
 if selected_attribute=='temperature':
       min=0
       max=100
